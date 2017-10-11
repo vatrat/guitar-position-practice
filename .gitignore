@@ -1,0 +1,11 @@
+# .gitignore
+
+# Mass-ignore
+*
+**/.swp
+
+# Git
+!/.gitignore
+
+# Python
+!**/*.py
