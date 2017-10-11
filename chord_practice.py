@@ -88,6 +88,7 @@ def stopwatch():
             time_output = str("%.2f" % round(time_elapsed,2)) #round
             time_len = len(time_output)
             time.sleep(0.0001) # Seems reasonable to me
+            # NOTE: only backpace and print the difference? ex. 20.68\b9
 
     except KeyboardInterrupt: # This is a hacky way to end the stopwatch.
         # I'd rather not set up things with threading just for this.
@@ -144,7 +145,8 @@ if __name__ == "__main__":
         # codeanywhere. -t sets the output to the terminal width, which may be
         # found incorrectly.
 
-        subprocess.call(["figlet", "-t", "-c", output]) # Default
+        print output
+        # subprocess.call(["figlet", "-t", "-c", output]) # Default
         # subprocess.call(["figlet", "-w 120", "-c", output]) # Manual Width
         # print output # Regular output
 
