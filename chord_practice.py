@@ -1,7 +1,18 @@
-# Program to practice bar chords at various points across the guitar neck
-# Set up to facilitate timed practice either alone or in a competition
+"""Program to practice bar chords at various points across the guitar neck
+    Set up to facilitate timed practice either alone or in a competition
+"""
+#-----
+import string # for getting the alphabet
+import random # for randomizing lists and selecting random objects
+import subprocess # for running "clear" and figlet
+# import threading
+import time # for stopwatch functionality
+import sys # for stopwatch output
 #-----
 def random_chords(notes, positions):
+    """Return a set of chords in random order with random notes,
+    one for each position given.
+    """
     # Number of items in 'positions' determines how many chords are returned.
     # This is utilized later to ensure that each set of 3 chords doesn't repeat
     # any notes within that section of 3. 3 Positions are passed into the
@@ -37,6 +48,7 @@ def random_chords(notes, positions):
     return chords # A list, clearly
 
 def practice_chords():
+    """Generate a set of chords of a format to be used for a timed test"""
     # Never E on 6th because it'd be an open chord
     notes_6 = list(string.uppercase[:4] + string.uppercase[5:7])
     # Never A on 5th because it'd be an open chord
@@ -61,6 +73,7 @@ def practice_chords():
     return chords_6, chords_5
 
 def standard_chord_output(chords_6, chords_5):
+    """Put practice chords into a format suitable for printing"""
     # The reason this is returned instead of printed is that it's more flexible
     # and allows for multiple output methods (ex. figlet or similar)
 
@@ -73,6 +86,7 @@ def standard_chord_output(chords_6, chords_5):
     """ % (tuple(chords_6) + tuple(chords_5))
 
 def stopwatch():
+    """Print a continually-updating stopwatch counter to the screen"""
     # Print a constantly-updating ("constantly" meaning every so often) time
     # This will be displayed at the bottom of the screen.
     try:
@@ -88,7 +102,7 @@ def stopwatch():
 
         while True:
             time_elapsed = time.time() - time_started
-            time_output = str("%.2f" % round(time_elapsed,2)) #round 2 places
+            time_output = str("%.2f" % round(time_elapsed, 2)) #round 2 places
             time_len = len(time_output)
 
             if time_output != time_output_prev: # If rounded time changed
@@ -135,7 +149,7 @@ def stopwatch():
             raw_input("""
 Total time is %s seconds.
 Press ENTER to go again or Ctrl-C to exit."""
-                    % time_output)
+                      % time_output)
             return time_output
         except KeyboardInterrupt: # Exit "gracefully"
             # print "Exiting"
@@ -144,14 +158,9 @@ Press ENTER to go again or Ctrl-C to exit."""
 
 
 #-----
-if __name__ == "__main__":
-    import string # for getting the alphabet
-    import random # for randomizing lists and selecting random objects
-    import subprocess # for running "clear" and figlet
-    # import threading
-    import time # for stopwatch functionality
-    import sys # for stopwatch output
-    import getopt # for options parsing
+def main():
+    """Run setup code and use functions to run the timed test"""
+    # import getopt # for options parsing
 
     #try:
     #    opts, args = getopt.getopt(argv, "scm", ["solo",  "competition", "manual"])
@@ -183,3 +192,8 @@ if __name__ == "__main__":
         # print output # Regular output
 
         stopwatch()
+
+#-----
+
+if __name__ == "__main__":
+    main()
