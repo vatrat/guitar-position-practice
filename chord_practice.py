@@ -121,7 +121,6 @@ def stopwatch():
         # The reason I don't just clear the screen and display it then is that
         # I want the chords to remain displayed. Maybe I should redisplay them?
 
-        sys.stdout.write("\b" * 2 * time_len) # Honestly, probably useless
         try:
             raw_input("""
 Total time is %s seconds.
