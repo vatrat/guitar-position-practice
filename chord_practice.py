@@ -78,17 +78,40 @@ def stopwatch():
     try:
         time_elapsed = 0.0 # I hope this is obvious
         time_output = "0.0" # Manually set for convenience, generated later
-        time_len = 3 # The length of "0.0", manually set, generated later
+        time_output_prev = "0.0" # Used so that partial ouput modification can be done
+        time_len = len(time_output) # The length, generated later on
+        time_len_prev = len(time_output_prev) # The length, generated later on
 
         time_started = time.time() # Seconds since Epoch
 
+        sys.stdout.write(time_output)
+        sys.stdout.flush()
+
         while True:
-            sys.stdout.write(("\b" * time_len) + time_output)
             time_elapsed = time.time() - time_started
-            time_output = str("%.2f" % round(time_elapsed,2)) #round
+            time_output = str("%.2f" % round(time_elapsed,2)) #round 2 places
             time_len = len(time_output)
+
+            if time_output != time_output_prev:
+                if time_len == time_len_prev:
+                    print_string = time_output
+                    for ch1, ch2 in zip(time_output, time_output_prev):
+                        if ch1 == ch2:
+                            print_string = print_string[1:]
+                        else:
+                            break
+                    sys.stdout.write(("\b" * len(print_string)) + print_string)
+                    sys.stdout.flush()
+                else:
+                    sys.stdout.write(("\b" * time_len_prev) + time_output)
+                    sys.stdout.flush()
+            else:
+                continue
+
+            time_output_prev = time_output
+            time_len_prev = time_len
+
             time.sleep(0.0001) # Seems reasonable to me
-            # NOTE: only backpace and print the difference? ex. 20.68\b9
 
     except KeyboardInterrupt: # This is a hacky way to end the stopwatch.
         # I'd rather not set up things with threading just for this.
