@@ -160,13 +160,6 @@ Press ENTER to go again or Ctrl-C to exit."""
 #-----
 def main():
     """Run setup code and use functions to run the timed test"""
-    # import getopt # for options parsing
-
-    #try:
-    #    opts, args = getopt.getopt(argv, "scm", ["solo",  "competition", "manual"])
-    #except getopt.GetoptError:
-    #    print "Arguments not understood."
-    #    sys.exit(2)
 
     # Clear screen to start
     subprocess.call(["clear"])
