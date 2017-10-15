@@ -1,14 +1,15 @@
 """Program to practice bar chords at various points across the guitar neck
     Set up to facilitate timed practice either alone or in a competition
 """
-#-----
-import string # for getting the alphabet
-import random # for randomizing lists and selecting random objects
-import subprocess # for running "clear" and figlet
+import string  # for getting the alphabet
+import random  # for randomizing lists and selecting random objects
+import subprocess  # for running "clear" and figlet
 # import threading
-import time # for stopwatch functionality
-import sys # for stopwatch output
-#-----
+import time  # for stopwatch functionality
+import sys  # for stopwatch output
+# -----
+
+
 def random_chords(notes, positions):
     """Return a set of chords in random order with random notes,
     one for each position given.
@@ -45,7 +46,8 @@ def random_chords(notes, positions):
         # Add finished chord to list of chords
         chords.append(chord)
 
-    return chords # A list, clearly
+    return chords  # A list, clearly
+
 
 def practice_chords():
     """Generate a set of chords of a format to be used for a timed test"""
@@ -72,6 +74,7 @@ def practice_chords():
     # Order is 6, then 5, because that's how the output is set up.
     return chords_6, chords_5
 
+
 def standard_chord_output(chords_6, chords_5):
     """Put practice chords into a format suitable for printing"""
     # The reason this is returned instead of printed is that it's more flexible
@@ -85,59 +88,60 @@ def standard_chord_output(chords_6, chords_5):
     %s   |   %s   |   %s
     """ % (tuple(chords_6) + tuple(chords_5))
 
+
 def stopwatch():
     """Print a continually-updating stopwatch counter to the screen"""
     # Print a constantly-updating ("constantly" meaning every so often) time
     # This will be displayed at the bottom of the screen.
     try:
-        time_started = time.time() # Seconds since Epoch
-        time_elapsed = 0.0 # Set to float 0 as initial value
-        time_output = "0.0" # Manually set for convenience, generated later
-        time_output_prev = "0.0" # Used for partial output modification
-        time_len = len(time_output) # The length, generated later on
-        time_len_prev = len(time_output_prev) # The length, generated later on
+        time_started = time.time()  # Seconds since Epoch
+        time_elapsed = 0.0  # Set to float 0 as initial value
+        time_output = "0.0"  # Manually set for convenience, generated later
+        time_output_prev = "0.0"  # Used for partial output modification
+        time_len = len(time_output)  # The length, generated later on
+        time_len_prev = len(time_output_prev)  # The length, generated later on
 
-        sys.stdout.write(time_output) # Write inital value
+        sys.stdout.write(time_output)  # Write inital value
         sys.stdout.flush()
 
         while True:
             time_elapsed = time.time() - time_started
-            time_output = str("%.2f" % round(time_elapsed, 2)) #round 2 places
+            time_output = str("%.2f" % round(time_elapsed, 2))  # round to .xx
             time_len = len(time_output)
 
-            if time_output != time_output_prev: # If rounded time changed
-                if time_len == time_len_prev: # If length hasn't changed
-                    print_string = time_output # Start at full output
+            if time_output != time_output_prev:  # If rounded time changed
+                if time_len == time_len_prev:  # If length hasn't changed
+                    print_string = time_output  # Start at full output
                     # Iterate through old and new time side by side
                     for ch1, ch2 in zip(time_output, time_output_prev):
-                        if ch1 == ch2: # If old and new time match here
-                            print_string = print_string[1:] # Remove 1st char
-                        else: # Difference is found
-                            break # End for loop early
+                        if ch1 == ch2:  # If old and new time match here
+                            print_string = print_string[1:]  # Remove 1st char
+                        else:  # Difference is found
+                            break  # End for loop early
                     # Remove characters from old output, starting with first
                     # non-matching character. Then, print section of output
                     # that is new.
                     sys.stdout.write(("\b" * len(print_string)) + print_string)
                     sys.stdout.flush()
-                else: # If strings are different length, number just went up
-                      # from 9 to 10, so no digits are shared at the beginning.
-                      # Therefore, go ahead and write the whole thing.
+                else:  # If strings are different length, number just went up
+                        # from 9 to 10, so no shared digits at the beginning.
+                        # Therefore, go ahead and write the whole thing.
                     sys.stdout.write(("\b" * time_len_prev) + time_output)
                     sys.stdout.flush()
-            else: # If time is equal to previous time, don't update the prev
-                  # time values, and wait a bit to make sure the program
-                  # doesn't constantly loop through until the rounded time
-                  # changes.
+            else:  # If time is equal to previous time, don't update the prev
+                    # time values, and wait a bit to make sure the program
+                    # doesn't constantly loop through until the rounded time
+                    # changes.
                 time.sleep(0.0001)
-                continue # Skip to next while loop cycle
+                continue  # Skip to next while loop cycle
 
-            time_output_prev = time_output # This cycle's current value is next
-                                           # cycle's old value
+                time_output_prev = time_output  # Cycle's current value is next
+                                                # cycle's old value.
             time_len_prev = time_len
 
-            time.sleep(0.0001) # Wait a bit. This can be removed.
+            time.sleep(0.0001)  # Wait a bit. This can be removed.
 
-    except KeyboardInterrupt: # This is a hacky way to end the stopwatch.
+    except KeyboardInterrupt:  # This is a hacky way to end the stopwatch.
         # I'd rather not set up things with threading just for this.
         # The only problem with this is that it butchers the time output when
         # you quit, and no amount of backspace characters will remove it.
@@ -151,13 +155,14 @@ Total time is %s seconds.
 Press ENTER to go again or Ctrl-C to exit."""
                       % time_output)
             return time_output
-        except KeyboardInterrupt: # Exit "gracefully"
+        except KeyboardInterrupt:  # Exit "gracefully"
             # print "Exiting"
-            raise SystemExit # Exit python
+            raise SystemExit  # Exit python
 
 
+# -----
 
-#-----
+
 def main():
     """Run setup code and use functions to run the timed test"""
 
@@ -186,7 +191,8 @@ def main():
 
         stopwatch()
 
-#-----
+
+# -----
 
 if __name__ == "__main__":
     main()
